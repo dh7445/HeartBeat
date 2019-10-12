@@ -1,0 +1,1 @@
+#this class will function as a log
