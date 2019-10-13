@@ -25,7 +25,8 @@ class Receiver:
     # self.lastUpdatedTime = datetime
 
     def updateTime(self):
-        self.lastUpdatedTime = self.queue.get()
+        if (not self.queue.empty()):
+            self.lastUpdatedTime = self.queue.get()
         print("Time updated: ", self.lastUpdatedTime)
         self.expireTime = self.lastUpdatedTime + datetime.timedelta(seconds=5)
         print(self.expireTime - self.lastUpdatedTime)
@@ -38,7 +39,7 @@ class Receiver:
         print(self.isAlive)
         mon.Log(self.isAlive)
         self.s = sched.scheduler(time.time, time.sleep)
-        self.s.enter(1, 2, self.pit_a_pat)
+        self.s.enter(5, 2, self.pit_a_pat)
         self.s.run()
 
     def checkAlive(self):

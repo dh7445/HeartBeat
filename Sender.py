@@ -10,6 +10,8 @@ import random
 class Sender:
 
     queue = None;
+    maxRandom = 5
+
 
     def __init__(self, q):
         self.queue = q
@@ -19,28 +21,36 @@ class Sender:
 
 
     def start(self):
-        # self.s = sched.scheduler(time.time, time.sleep)
 
-        # try:
-        #     rand = random.randint(1, 10)
-        #     print("\n\n", rand)
-        #     if 10 == rand:
-        #
-        # except:
-        #     raise Exception('unleash hell')
+        try:
+            if self.randomFault():
+                5/0
+        except:
+           raise
+            # self.queue.get()
 
         self.s = sched.scheduler(time.time, time.sleep)
         self.queue.put(datetime.datetime.now())
-        # try:
-        # print(5/0)
-        # except:
+
         #     print("I crashed")
 
         # pit_a_pat()
 
-        self.s.enter(1, 1, self.start)
+        self.s.enter(5, 1, self.start)
         self.s.run()
 
+
+    def randomFault(self):
+        print(self.maxRandom)
+        rand1 = random.randint(1, self.maxRandom)
+        print("RANDOM 1:", rand1)
+        rand2 = random.randint(1, self.maxRandom)
+        print("RANDOM 2:", rand2)
+        self.maxRandom = self.maxRandom - 1
+        if rand1 == rand2:
+            return True
+        else:
+            return False
 
     # test = Sender()
 
