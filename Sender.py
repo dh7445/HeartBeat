@@ -2,30 +2,44 @@
 #this class is where the failure needs to occur (?)
 import sched
 import time
-from Receiver import Receiver
 import multiprocessing
 import datetime
+import random
+
 
 class Sender:
 
     queue = None;
 
     def __init__(self, q):
-        self.queue = q;
+        self.queue = q
+        print('init sender')
         self.start()
 
 
 
     def start(self):
         # self.s = sched.scheduler(time.time, time.sleep)
+
+        # try:
+        #     rand = random.randint(1, 10)
+        #     print("\n\n", rand)
+        #     if 10 == rand:
+        #
+        # except:
+        #     raise Exception('unleash hell')
+
         self.s = sched.scheduler(time.time, time.sleep)
-        self.queue.put("I was sent.")
-        beat = Receiver()
-        beat.pit_a_pat(datetime.datetime.now())
+        self.queue.put(datetime.datetime.now())
+        # try:
+        # print(5/0)
+        # except:
+        #     print("I crashed")
 
-        self.s.enter(5, 1, self.start)
+        # pit_a_pat()
+
+        self.s.enter(1, 1, self.start)
         self.s.run()
-
 
 
     # test = Sender()
