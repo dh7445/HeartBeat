@@ -1,11 +1,11 @@
 #this class is where the GPS stuff will be placed
-#this class is where the failure needs to occur (?)
+#this class is where the failure needs to occur (?) (Yes)
 import sched
 import time
 import multiprocessing
 import datetime
 import random
-
+import geocoder
 
 class Sender:
 
@@ -17,7 +17,14 @@ class Sender:
         self.queue = q
         print('init sender')
         self.start()
-
+    
+    
+    def locate_mycar(self):
+        car_location = geocoder.ip('me')
+        print("LATITUDE AND LONGTITUDE: ", car_location.latlng)
+        print("CITY: ", car_location.city)
+        print("STATE: ", car_location.state)
+        print("COUNTRY: ", car_location.country)
 
 
     def start(self):
