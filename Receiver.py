@@ -29,18 +29,19 @@ class Receiver:
         print("doing stuff")
         self.updateTime(newTime)
 
-    def checkAlive(self):
+    def checkAlive(self, q):
         if datetime.datetime.now() - self.lastUpdatedTime > datetime.timedelta(seconds=self.maxWaitingTime):
             time.sleep(2)
             if datetime.datetime.now() - self.lastUpdatedTime > datetime.timedelta(seconds=self.maxWaitingTime):
                 print("im dead")
                 # return False
         else:
+            print(q.get());
             print("im Alive")
             # return True
 
         self.s = sched.scheduler(time.time, time.sleep)
-        self.s.enter(5, 2, self.checkAlive)
+        self.s.enter(5, 2, self.checkAlive(q))
         self.s.run()
 
     def start(self):
