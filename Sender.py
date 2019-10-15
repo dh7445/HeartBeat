@@ -1,24 +1,19 @@
-#this class is where the GPS stuff will be placed
-#this class is where the failure needs to occur (?) (Yes)
 import sched
 import time
-import multiprocessing
 import datetime
 import random
 import geocoder
 
-class Sender:
 
+class Sender:
     queue = None;
     maxRandom = 5
-
 
     def __init__(self, q):
         self.queue = q
         print('init sender')
         self.start()
-    
-    
+
     def locate_mycar(self):
         car_location = geocoder.ip('me')
         print("LATITUDE AND LONGTITUDE: ", car_location.latlng)
@@ -26,14 +21,13 @@ class Sender:
         print("STATE: ", car_location.state)
         print("COUNTRY: ", car_location.country)
 
-
     def start(self):
 
         try:
             if self.randomFault():
-                5/0
+                5 / 0
         except:
-           raise
+            raise
             # self.queue.get()
 
         self.s = sched.scheduler(time.time, time.sleep)
@@ -46,7 +40,6 @@ class Sender:
         self.s.enter(5, 1, self.start)
         self.s.run()
 
-
     def randomFault(self):
         print(self.maxRandom)
         rand1 = random.randint(1, self.maxRandom)
@@ -58,10 +51,3 @@ class Sender:
             return True
         else:
             return False
-
-    # test = Sender()
-
-
-
-
-

@@ -10,9 +10,5 @@ if __name__ == "__main__":
     p1.start()
     p2.start()
     p1.join()
-    # p2.join()
-    # print("XXXXXXXXXX", p1.is_alive())
-    # p1.join()
-    print("hola")
 
 

@@ -2,7 +2,6 @@
 import sched
 import time
 import datetime
-import multiprocessing
 import Monitor as mon
 
 
@@ -20,17 +19,15 @@ class Receiver:
         self.queue = q
         self.pit_a_pat()
 
-
     # def __init__(self):
     # self.lastUpdatedTime = datetime
 
     def updateTime(self):
-        if (not self.queue.empty()):
+        if not self.queue.empty():
             self.lastUpdatedTime = self.queue.get()
         print("Time updated: ", self.lastUpdatedTime)
         self.expireTime = self.lastUpdatedTime + datetime.timedelta(seconds=5)
         print(self.expireTime - self.lastUpdatedTime)
-
 
     def pit_a_pat(self):
         print("doing stuff")
@@ -52,8 +49,6 @@ class Receiver:
             # print(q.get());
             print("im Alive")
             return True
-
-
 
     def start(self):
         self.checkAlive()
