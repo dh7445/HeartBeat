@@ -8,7 +8,7 @@ A smart car software system built in Python.
 ## Architectural Tactic Implementation
 - HeartBeat
 
-## Prerequisites
+## Technologies Used
 - Python 3.7
 - Geocoder API
 
