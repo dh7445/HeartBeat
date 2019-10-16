@@ -1,6 +1,4 @@
-![Screenshot](img.jpg)
 
-#
 # Smart Car
 
 A smart car software system built in Python.
