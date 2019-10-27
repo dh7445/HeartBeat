@@ -8,7 +8,7 @@ import sys
 
 
 class Sender:
-    queue = None;
+    queue = None
     maxRandom = 5
 
     def __init__(self, q):
@@ -18,7 +18,7 @@ class Sender:
 
     def locate_mycar(self):
         car_location = geocoder.ip('me')
-        return f"{os.getpid()}: -  Car coordinates: {car_location.latlng}. City: {car_location.city}. State: {car_location.state}." \
+        return f"Sender: -  Car coordinates: {car_location.latlng}. City: {car_location.city}. State: {car_location.state}." \
                f" Country: {car_location.country}"
 
     def start(self):
@@ -27,21 +27,17 @@ class Sender:
                 5 / 0
             except:
                 sys.tracebacklimit = 0
-                print(f"{os.getpid()}: - Beat not sent")
-                print(f"{os.getpid()} - Time of death: {datetime.datetime.now()}")
+                print(f"Sender - Time of death: {datetime.datetime.now()}")
                 raise
 
-        self.queue.put(datetime.datetime.now())
-        print(f"{self.locate_mycar()}")
-        print(f"{os.getpid()}: - Beat sent")
+        self.queue.put([self.locate_mycar(), datetime.datetime.now()])
+
         self.s.enter(5, 1, self.start)
         self.s.run()
 
     def randomFault(self):
         rand1 = random.randint(1, self.maxRandom)
-        print(f"{os.getpid()}: - RANDOM 1: {rand1}")
         rand2 = random.randint(1, self.maxRandom)
-        print(f"{os.getpid()}: - RANDOM 2: {rand2}")
         self.maxRandom = self.maxRandom - 1
         if rand1 == rand2:
             return True
