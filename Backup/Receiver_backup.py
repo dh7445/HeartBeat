@@ -23,10 +23,7 @@ class Receiver:
         self.pit_a_pat()
 
     def updateTime(self):
-        #print(f"Receiver Backup: - Beat Received")
-        # print(self.queue_array)
         self.lastUpdatedTime = self.queue_array[1]
-        #print(f"Receiver Backup: - Time of last beat: {self.lastUpdatedTime}")
         self.expireTime = self.lastUpdatedTime + datetime.timedelta(seconds=5)
 
     def pit_a_pat(self):
@@ -38,16 +35,15 @@ class Receiver:
             self.queue2.put(["Backup Process", True, self.queue_array[0]])
         elif not self.isAlive:
             self.queue2.put(["Backup Process", False])
-        self.s.enter(10, 1, self.pit_a_pat)
+        self.s.enter(5, 1, self.pit_a_pat)
         self.s.run()
 
     def checkAlive(self):
-        timenow = datetime.datetime.now()
-        if timenow - self.lastUpdatedTime > datetime.timedelta(seconds=self.maxWaitingTime):
+        if datetime.datetime.now() - self.lastUpdatedTime > datetime.timedelta(seconds=self.maxWaitingTime):
             time.sleep(2)
-            if timenow - self.lastUpdatedTime > datetime.timedelta(seconds=self.maxWaitingTime):
-                print(f"Receiver Backup: - No beat received after expire time")
+            if datetime.datetime.now() - self.lastUpdatedTime > datetime.timedelta(seconds=self.maxWaitingTime):
+                print(f"Backup Receiver: - No beat received after expire time")
                 return False
         else:
-            print(f"Receiver Backup: - Sender is still beating")
+            print(f"Backup Receiver: - Sender is still beating")
             return True

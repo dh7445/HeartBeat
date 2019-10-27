@@ -1,10 +1,7 @@
 import sched
 import time
 import datetime
-import random
 import geocoder
-import os
-import sys
 
 
 class Sender:
@@ -22,8 +19,6 @@ class Sender:
                f" Country: {car_location.country}"
 
     def start(self):
-
         self.queue.put([self.locate_mycar(), datetime.datetime.now()])
-
         self.s.enter(5, 1, self.start)
         self.s.run()

@@ -31,7 +31,6 @@ class Sender:
                 raise
 
         self.queue.put([self.locate_mycar(), datetime.datetime.now()])
-
         self.s.enter(5, 1, self.start)
         self.s.run()
 

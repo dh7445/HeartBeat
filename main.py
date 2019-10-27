@@ -1,22 +1,42 @@
 import multiprocessing
-from Sender import Sender
-from Receiver import Receiver
+import Sender
+import Receiver
 import Monitor
+import Backup.Sender_backup
+import Backup.Receiver_backup
 
 
-q = multiprocessing.Queue()
-q2 = multiprocessing.Queue()
+if __name__ == "__main__":
 
-p1 = multiprocessing.Process(target=Sender, args=(q,))
-p2 = multiprocessing.Process(target=Receiver, args=(q, q2,))
-p3 = multiprocessing.Process(target=Monitor.Log, args=(q2,))
-print("Init Process 1  (Sender)")
-p1.start()
-print("Init Process 2  (Receiver)")
-p2.start()
-print("Init Process 3  (Monitor)")
-p3.start()
-p1.join()
-p2.join()
+    #Queues
+    q = multiprocessing.Queue()
+    q_backup = multiprocessing.Queue()
+    q_monitor = multiprocessing.Queue()
+    q_monitor2 = multiprocessing.Queue()
+
+
+    #first group
+    p1 = multiprocessing.Process(target=Sender.Sender, args=(q,), name="Main sender")
+    p2 = multiprocessing.Process(target=Receiver.Receiver, args=(q, q_monitor,), name='Main receiver')
+
+    #backup group
+    p1_b = multiprocessing.Process(target=Backup.Sender_backup.Sender, args=(q_backup,), name="Backup sender")
+    p2_b = multiprocessing.Process(target=Backup.Receiver_backup.Receiver, args=(q_backup, q_monitor2,), name="Backup receiver")
+
+    #monitor
+    monitor_p = multiprocessing.Process(target=Monitor.Log, args=(q_monitor, q_monitor2))
+
+    p1.start()
+    p2.start()
+    p1_b.start()
+    p2_b.start()
+    monitor_p.start()
+
+    p1.join()
+    p2.join()
+    p1_b.join()
+    p2_b.join()
+    monitor_p.join()
+
 
 

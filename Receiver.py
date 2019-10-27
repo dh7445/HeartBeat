@@ -23,10 +23,7 @@ class Receiver:
         self.pit_a_pat()
 
     def updateTime(self):
-        #print(f"Receiver: - Beat Received")
-
         self.lastUpdatedTime = self.queue_array[1]
-        #print(f"Receiver: - Time of last beat: {self.lastUpdatedTime}")
         self.expireTime = self.lastUpdatedTime + datetime.timedelta(seconds=5)
 
     def pit_a_pat(self):
