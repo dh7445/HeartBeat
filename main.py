@@ -8,22 +8,21 @@ import Backup.Receiver_backup
 
 if __name__ == "__main__":
 
-    #Queues
+    # Queues
     q = multiprocessing.Queue()
     q_backup = multiprocessing.Queue()
     q_monitor = multiprocessing.Queue()
     q_monitor2 = multiprocessing.Queue()
 
-
-    #first group
+    # First group
     p1 = multiprocessing.Process(target=Sender.Sender, args=(q,), name="Main sender")
     p2 = multiprocessing.Process(target=Receiver.Receiver, args=(q, q_monitor,), name='Main receiver')
 
-    #backup group
+    # backup group
     p1_b = multiprocessing.Process(target=Backup.Sender_backup.Sender, args=(q_backup,), name="Backup sender")
     p2_b = multiprocessing.Process(target=Backup.Receiver_backup.Receiver, args=(q_backup, q_monitor2,), name="Backup receiver")
 
-    #monitor
+    # Monitor
     monitor_p = multiprocessing.Process(target=Monitor.Log, args=(q_monitor, q_monitor2))
 
     p1.start()
